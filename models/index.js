@@ -43,7 +43,7 @@ db.Post.belongsToMany(db.HashTag, {through: 'post_hashtag'});// M:N 는 belongsM
 db.HashTag.belongsToMany(db.Post, {through: 'post_hashtag'});// 이렇게 두줄 박으면 알아서 가운데놈 테이블 생성 = 
 
 //팔로우 팔로잉 관계
-db.User.belongsToMany(db.User, {through: "follow", foreignKey: 'following_id', as: 'follwers'});//하나의 테이블 안에서 관계 팔로우라는 테이블 만듦 = 유저와 유저의 관계가 들어있는 테이블, 팔로워 한사람한테 팔로잉 당한 사람의 아이디를 저장
-db.User.belongsToMany(db.User, {through: "follow", foreignKey: 'following_id', as: 'followings'});//팔로잉당한사람한테 팔로워 한 사람의 아이디를 저장
+db.User.belongsToMany(db.User, {through: "follow", foreignKey: 'following_id', as: 'followers'});//하나의 테이블 안에서 관계 팔로우라는 테이블 만듦 = 유저와 유저의 관계가 들어있는 테이블, 팔로워 한사람한테 팔로잉 당한 사람의 아이디를 저장
+db.User.belongsToMany(db.User, {through: "follow", foreignKey: 'follower_id', as: 'followings'});//팔로잉당한사람한테 팔로워 한 사람의 아이디를 저장
 
 module.exports = db;
