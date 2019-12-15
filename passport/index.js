@@ -1,7 +1,5 @@
 const local = require('./local.js');
 const { User } = require('../models/index.js');
-const bcrypt = require('bcrypt')
-
 
 module.exports = (passport) =>{
   passport.serializeUser( (user,done) => {
@@ -9,7 +7,7 @@ module.exports = (passport) =>{
   })
   passport.deserializeUser( async(id,done) => {
     try{
-    let result = await User.findById({
+    let result = await User.findOne({
       where: {id},
       include:[{
         model: User,

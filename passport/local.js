@@ -1,6 +1,6 @@
 const localStrategy = require('passport-local').Strategy;
 
-const { User } = require('../models/');
+const { User } = require('../models');
 const bcrypt = require('bcrypt')
 
 module.exports = (passport) => {
@@ -14,7 +14,7 @@ module.exports = (passport) => {
         where:{email}
       });
       if(user){
-        const result = await bcrypt.compare(userpw, User.userpw);
+        const result = await bcrypt.compare(userpw, user.userpw);
         if(result) done(null, user)
         else done(null, false, {msg: "비밀번호가 일치하지 않습니다."})
       }

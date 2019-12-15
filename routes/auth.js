@@ -26,9 +26,25 @@ router.post("/join", async (req, res, next) => {
   }
 });
 
-router.post('/login',passport.authenticate('local', { failureRedirect: '/login' }),
-function(req, res) {
-  res.redirect('/');
-})
+router.post("/login", (req, res, next) => {
+	passport.authenticate('local', (error, user, info) => {
+		console.log("passport");
+		if(error) {
+			console.error(error);
+			next(error);
+		}
+		else if(!user) {
+			res.send(alertLoc('일치하는 회원이 없습니다.', '/'));
+		}
+		else {
+			req.login(user, (err) => {
+				if(err) next(err);
+				else {
+					res.send(alertLoc("로그인 되었습니다.", "/"));
+				}
+			});
+		}
+	})(req, res, next)
+});
 
 module.exports = router;
