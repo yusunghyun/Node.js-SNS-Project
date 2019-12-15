@@ -7,8 +7,10 @@ require('dotenv').config(); //env실행 방법.
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var { sequelize } = require('./models'); //기본값이 index.js
 
 var app = express();
+sequelize.sync({force:true});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
