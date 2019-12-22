@@ -4,9 +4,10 @@ const bcrypt = require("bcrypt");
 const { User } = require("../models");
 const { alertLoc } = require("../modules/util.js");
 const passport = require('passport');
-require('../passport/index')(passport);
+const { isLogin, isLogout } = require('../passport/auth.js');
+// require('../passport/index')(passport);
 
-router.post("/join", async (req, res, next) => {
+router.post("/join", isLogout , async (req, res, next) => {
   let { email, userpw, username } = req.body;
   try {
     let result = await User.findOne({ where: { email } }); //가입중 이미 있나 찾아보자!!
@@ -26,7 +27,7 @@ router.post("/join", async (req, res, next) => {
   }
 });
 
-router.post("/login", (req, res, next) => {
+router.post("/login", isLogout,(req, res, next) => {
 	passport.authenticate('local', (error, user, info) => {
 		console.log("passport");
 		if(error) {
@@ -46,5 +47,11 @@ router.post("/login", (req, res, next) => {
 		}
 	})(req, res, next)
 });
+
+router.get('/logout',isLogin,(req,res,next)=>{
+	req.logout();//로그아웃해줘
+	req.session.destroy();//혹시 세션남아있으면 지워줘
+	res.redirect('/');//다시 원래 페이지로!
+})
 
 module.exports = router;
